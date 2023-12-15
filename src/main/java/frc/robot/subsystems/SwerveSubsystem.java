@@ -38,7 +38,25 @@ public class SwerveSubsystem extends SubsystemBase {
         DriveConstants.kBackRightDriveEncoderPort,
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+
+    private final AHRS gyro = new AHRS(SPI, PortkMPX);
+
+    public SwerveSubsystem() {
+        new Thread(()-> {
+            try {
+                Thread.sleep(1000);
+                zeroHeading();
+            } catch (Exception e) {
+            }
+        }).start();
+    }
+
+    public void zeroHeading() {
+        gyro.reset();
+    }
     
-    
+    public double getHeading() {
+        return Math.IEEEremainder(gyro.angle, getHeading())
+    }
     
 }
