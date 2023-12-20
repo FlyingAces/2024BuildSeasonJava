@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -56,7 +57,25 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     
     public double getHeading() {
-        return Math.IEEEremainder(gyro.angle, getHeading())
+        return Math.IEEEremainder(gyro.angle(), 360);
     }
     
+    public Rotation2d geRotation2d() {
+        return Rotation2d.fromDegrees(getHeading());
+    }
+
+    @Override
+    public void periodic() {
+        frontLeft.stop();
+        frontRight.stop();
+        BacktLeft.stop();
+        BackRight.stop();
+    }
+
+    public void setModuleStates(swerveModuleState[] desiredStates0) {
+        frontLeft.setDesiredState(desiredStates[0]);
+        frontRight.setDesiredState(desiredStates[1]);
+        BacktLeft.setDesiredState(desiredStates[2]);
+        BackRight.setDesiredState(desiredStates[3]);
+    }
 }
